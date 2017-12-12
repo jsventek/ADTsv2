@@ -1,0 +1,12 @@
+After you have cloned the repository, you can build the ADTs by performing
+the following shell commands:
+
+$ autoreconf -if
+$ ./configure
+$ make clean
+$ make
+$ make install
+$ (cd src; sh -v test.sh)
+
+Note that the libraries are installed in /usr/local/lib and the .h files
+are installed in /usr/local/include/adts.

@@ -1,0 +1,676 @@
+Duplicate line: ""
+Duplicate line: " *"
+Duplicate line: " *"
+Duplicate line: ""
+Duplicate line: ""
+Duplicate line: ""
+Duplicate line: ""
+Duplicate line: "        return -1;"
+Duplicate line: "    }"
+Duplicate line: "        return -1;"
+Duplicate line: "    }"
+Duplicate line: "        }"
+Duplicate line: "    }"
+Duplicate line: "    /*"
+Duplicate line: "     */"
+Duplicate line: ""
+Duplicate line: "            return -1;"
+Duplicate line: "        }"
+Duplicate line: "            return -1;"
+Duplicate line: "        }"
+Duplicate line: "    }"
+Duplicate line: "    /*"
+Duplicate line: "     */"
+Duplicate line: "    /*"
+Duplicate line: "     */"
+Duplicate line: "    if ((ts = TSOrderedSet_create(scmp)) == NULL) {"
+Duplicate line: "        fprintf(stderr, "Error creating treeset of strings\n");"
+Duplicate line: "        return -1;"
+Duplicate line: "    }"
+Duplicate line: "    while (fgets(buf, 1024, fd) != NULL) {"
+Duplicate line: "        p = strchr(buf, '\n');"
+Duplicate line: "        *p = '\0';"
+Duplicate line: "        if ((p = strdup(buf)) == NULL) {"
+Duplicate line: "            fprintf(stderr, "Error duplicating string\n");"
+Duplicate line: "            return -1;"
+Duplicate line: "        }"
+Duplicate line: "        if (!ts->add(ts, p)) {"
+Duplicate line: "            free(p);"
+Duplicate line: "        }"
+Duplicate line: "    }"
+Duplicate line: "    fclose(fd);"
+Duplicate line: "    /*"
+Duplicate line: "     */"
+Duplicate line: "        return -1;"
+Duplicate line: "    }"
+Duplicate line: "    for (i = 0; i < n; i++) {"
+Duplicate line: "    }"
+Duplicate line: "    /*"
+Duplicate line: "     */"
+Duplicate line: "        return -1;"
+Duplicate line: "    }"
+Duplicate line: "    }"
+Duplicate line: "    /*"
+Duplicate line: "     */"
+Duplicate line: "    } else"
+Duplicate line: "    } else"
+Duplicate line: "    } else"
+Duplicate line: "    /*"
+Duplicate line: "     */"
+Duplicate line: "    for (i = 0; i < n; i++) {"
+Duplicate line: "        char *p;"
+Duplicate line: "            return -1;"
+Duplicate line: "        }"
+Duplicate line: "        printf("%s\n", p);"
+Duplicate line: "    }"
+Duplicate line: "    for (i = 0; i < n; i++) {"
+Duplicate line: "        char *p;"
+Duplicate line: "        (void) ts->first(ts, (void **)&p);"
+Duplicate line: "        printf("First element is: \"%s\"\n", p);"
+Duplicate line: "        (void) ts->last(ts, (void **)&p);"
+Duplicate line: "        printf("Last element is: \"%s\"\n", p);"
+Duplicate line: "            return -1;"
+Duplicate line: "        }"
+Duplicate line: "        printf("%s\n", p);"
+Duplicate line: "        free(p);"
+Duplicate line: "    }"
+Duplicate line: "    /*"
+Duplicate line: "     */"
+Duplicate line: ""
+Duplicate line: "}"
+===== test of add
+===== test of first and remove
+Size before remove = 130
+
+            fprintf(stderr, "Duplicate line: \"%s\"\n", p);
+            fprintf(stderr, "Error duplicating string\n");
+            fprintf(stderr, "Error invoking pollFirst()\n");
+            fprintf(stderr, "Error invoking pollLast()\n");
+            fprintf(stderr, "Error removing %ld'th element\n", i);
+            fprintf(stderr, "Error retrieving %ld'th element\n", i);
+            free(p);
+            return -1;
+        (void) it->next(it, (void **)&p);
+        (void) ts->first(ts, (void **)&p);
+        (void) ts->last(ts, (void **)&p);
+        *p = '\0';
+        char *element;
+        char *p;
+        fprintf(stderr, "Error creating treeset of strings\n");
+        fprintf(stderr, "Error in creating iterator\n");
+        fprintf(stderr, "Error in invoking ts->toArray()\n");
+        fprintf(stderr, "No ceiling found relative to \"0005\"\n");
+        fprintf(stderr, "No floor found relative to \"0005\"\n");
+        fprintf(stderr, "No higher found relative to \"0006\"\n");
+        fprintf(stderr, "No lower found relative to \"0006\"\n");
+        fprintf(stderr, "Unable to open %s to read\n", argv[1]);
+        fprintf(stderr, "usage: ./tstest file\n");
+        free(p);
+        if (!ts->add(ts, p)) {
+        if (!ts->first(ts, (void **)&element)) {
+        if (!ts->pollFirst(ts, (void **)&p)) {
+        if (!ts->pollLast(ts, (void **)&p)) {
+        if (!ts->remove(ts, element, free)) {
+        if ((p = strdup(buf)) == NULL) {
+        p = strchr(buf, '\n');
+        printf("%s\n", (char *)array[i]);
+        printf("%s\n", element);
+        printf("%s\n", p);
+        printf("Ceiling relative to \"0005\" is \"%s\"\n", p);
+        printf("First element is: \"%s\"\n", p);
+        printf("Floor relative to \"0005\" is \"%s\"\n", p);
+        printf("Higher relative to \"0006\" is \"%s\"\n", p);
+        printf("Last element is: \"%s\"\n", p);
+        printf("Lower relative to \"0006\" is \"%s\"\n", p);
+        return -1;
+        }
+     * test of add()
+     * test of ceiling, floor, higher, lower
+     * test of destroy with NULL freeFxn
+     * test of destroy with free() as freeFxn
+     * test of get()
+     * test of insert
+     * test of iterator
+     * test of pollFirst and pollLast
+     * test of toArray
+     */
+    /*
+    FILE *fd;
+    char *p;
+    char buf[1024];
+    const TSIterator *it;
+    const TSOrderedSet *ts;
+    fclose(fd);
+    fd = fopen(argv[1], "r");		/* we know we can open it */
+    for (i = 0; i < n; i++) {
+    free(array);
+    i = 0;
+    i = 0L;
+    if (!ts->ceiling(ts, "0005", (void **)&p)) {
+    if (!ts->floor(ts, "0005", (void **)&p)) {
+    if (!ts->higher(ts, "0006", (void **)&p)) {
+    if (!ts->lower(ts, "0006", (void **)&p)) {
+    if ((array = ts->toArray(ts, &n)) == NULL) {
+    if ((fd = fopen(argv[1], "r")) == NULL) {
+    if ((it = ts->itCreate(ts)) == NULL) {
+    if ((ts = TSOrderedSet_create(scmp)) == NULL) {
+    if (argc != 2) {
+    it->destroy(it);
+    long i, n;
+    n = ts->size(ts) / 4;
+    n = ts->size(ts);
+    printf("===== test of add\n");
+    printf("===== test of destroy(NULL)\n");
+    printf("===== test of destroy(free)\n");
+    printf("===== test of first and remove\n");
+    printf("===== test of iterator\n");
+    printf("===== test of pollFirst - first %ld elements of the set are\n", n);
+    printf("===== test of pollLast - last %ld elements of the set are\n", n);
+    printf("===== test of toArray\n");
+    printf("Size after remove = %ld\n", ts->size(ts));
+    printf("Size before remove = %ld\n", n);
+    return 0;
+    return strcmp((char *)a, (char *)b);
+    ts->destroy(ts, NULL);
+    ts->destroy(ts, free);
+    void **array;
+    while (fgets(buf, 1024, fd) != NULL) {
+    while (it->hasNext(it)) {
+    }
+    } else
+ *
+ *   and/or other materials provided with the distribution.
+ *   contributors may be used to endorse or promote products derived from this
+ *   software without specific prior written permission.
+ *   this list of conditions and the following disclaimer in the documentation
+ *   this list of conditions and the following disclaimer.
+ * - Neither the name of the University of Oregon nor the names of its
+ * - Redistributions in binary form must reproduce the above copyright notice,
+ * - Redistributions of source code must retain the above copyright notice,
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * All rights reserved.
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * Copyright (c) 2017, University of Oregon
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * POSSIBILITY OF SUCH DAMAGE.
+ * Redistribution and use in source and binary forms, with or without
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * modification, are permitted provided that the following conditions are met:
+ */
+#include "tsorderedset.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+/*
+int main(int argc, char *argv[]) {
+static int scmp(void *a, void *b) {
+}
+Size after remove = 0
+===== test of destroy(NULL)
+===== test of toArray
+
+            fprintf(stderr, "Duplicate line: \"%s\"\n", p);
+            fprintf(stderr, "Error duplicating string\n");
+            fprintf(stderr, "Error invoking pollFirst()\n");
+            fprintf(stderr, "Error invoking pollLast()\n");
+            fprintf(stderr, "Error removing %ld'th element\n", i);
+            fprintf(stderr, "Error retrieving %ld'th element\n", i);
+            free(p);
+            return -1;
+        (void) it->next(it, (void **)&p);
+        (void) ts->first(ts, (void **)&p);
+        (void) ts->last(ts, (void **)&p);
+        *p = '\0';
+        char *element;
+        char *p;
+        fprintf(stderr, "Error creating treeset of strings\n");
+        fprintf(stderr, "Error in creating iterator\n");
+        fprintf(stderr, "Error in invoking ts->toArray()\n");
+        fprintf(stderr, "No ceiling found relative to \"0005\"\n");
+        fprintf(stderr, "No floor found relative to \"0005\"\n");
+        fprintf(stderr, "No higher found relative to \"0006\"\n");
+        fprintf(stderr, "No lower found relative to \"0006\"\n");
+        fprintf(stderr, "Unable to open %s to read\n", argv[1]);
+        fprintf(stderr, "usage: ./tstest file\n");
+        free(p);
+        if (!ts->add(ts, p)) {
+        if (!ts->first(ts, (void **)&element)) {
+        if (!ts->pollFirst(ts, (void **)&p)) {
+        if (!ts->pollLast(ts, (void **)&p)) {
+        if (!ts->remove(ts, element, free)) {
+        if ((p = strdup(buf)) == NULL) {
+        p = strchr(buf, '\n');
+        printf("%s\n", (char *)array[i]);
+        printf("%s\n", element);
+        printf("%s\n", p);
+        printf("Ceiling relative to \"0005\" is \"%s\"\n", p);
+        printf("First element is: \"%s\"\n", p);
+        printf("Floor relative to \"0005\" is \"%s\"\n", p);
+        printf("Higher relative to \"0006\" is \"%s\"\n", p);
+        printf("Last element is: \"%s\"\n", p);
+        printf("Lower relative to \"0006\" is \"%s\"\n", p);
+        return -1;
+        }
+     * test of add()
+     * test of ceiling, floor, higher, lower
+     * test of destroy with NULL freeFxn
+     * test of destroy with free() as freeFxn
+     * test of get()
+     * test of insert
+     * test of iterator
+     * test of pollFirst and pollLast
+     * test of toArray
+     */
+    /*
+    FILE *fd;
+    char *p;
+    char buf[1024];
+    const TSIterator *it;
+    const TSOrderedSet *ts;
+    fclose(fd);
+    fd = fopen(argv[1], "r");		/* we know we can open it */
+    for (i = 0; i < n; i++) {
+    free(array);
+    i = 0;
+    i = 0L;
+    if (!ts->ceiling(ts, "0005", (void **)&p)) {
+    if (!ts->floor(ts, "0005", (void **)&p)) {
+    if (!ts->higher(ts, "0006", (void **)&p)) {
+    if (!ts->lower(ts, "0006", (void **)&p)) {
+    if ((array = ts->toArray(ts, &n)) == NULL) {
+    if ((fd = fopen(argv[1], "r")) == NULL) {
+    if ((it = ts->itCreate(ts)) == NULL) {
+    if ((ts = TSOrderedSet_create(scmp)) == NULL) {
+    if (argc != 2) {
+    it->destroy(it);
+    long i, n;
+    n = ts->size(ts) / 4;
+    n = ts->size(ts);
+    printf("===== test of add\n");
+    printf("===== test of destroy(NULL)\n");
+    printf("===== test of destroy(free)\n");
+    printf("===== test of first and remove\n");
+    printf("===== test of iterator\n");
+    printf("===== test of pollFirst - first %ld elements of the set are\n", n);
+    printf("===== test of pollLast - last %ld elements of the set are\n", n);
+    printf("===== test of toArray\n");
+    printf("Size after remove = %ld\n", ts->size(ts));
+    printf("Size before remove = %ld\n", n);
+    return 0;
+    return strcmp((char *)a, (char *)b);
+    ts->destroy(ts, NULL);
+    ts->destroy(ts, free);
+    void **array;
+    while (fgets(buf, 1024, fd) != NULL) {
+    while (it->hasNext(it)) {
+    }
+    } else
+ *
+ *   and/or other materials provided with the distribution.
+ *   contributors may be used to endorse or promote products derived from this
+ *   software without specific prior written permission.
+ *   this list of conditions and the following disclaimer in the documentation
+ *   this list of conditions and the following disclaimer.
+ * - Neither the name of the University of Oregon nor the names of its
+ * - Redistributions in binary form must reproduce the above copyright notice,
+ * - Redistributions of source code must retain the above copyright notice,
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * All rights reserved.
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * Copyright (c) 2017, University of Oregon
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * POSSIBILITY OF SUCH DAMAGE.
+ * Redistribution and use in source and binary forms, with or without
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * modification, are permitted provided that the following conditions are met:
+ */
+#include "tsorderedset.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+/*
+int main(int argc, char *argv[]) {
+static int scmp(void *a, void *b) {
+}
+===== test of iterator
+
+            fprintf(stderr, "Duplicate line: \"%s\"\n", p);
+            fprintf(stderr, "Error duplicating string\n");
+            fprintf(stderr, "Error invoking pollFirst()\n");
+            fprintf(stderr, "Error invoking pollLast()\n");
+            fprintf(stderr, "Error removing %ld'th element\n", i);
+            fprintf(stderr, "Error retrieving %ld'th element\n", i);
+            free(p);
+            return -1;
+        (void) it->next(it, (void **)&p);
+        (void) ts->first(ts, (void **)&p);
+        (void) ts->last(ts, (void **)&p);
+        *p = '\0';
+        char *element;
+        char *p;
+        fprintf(stderr, "Error creating treeset of strings\n");
+        fprintf(stderr, "Error in creating iterator\n");
+        fprintf(stderr, "Error in invoking ts->toArray()\n");
+        fprintf(stderr, "No ceiling found relative to \"0005\"\n");
+        fprintf(stderr, "No floor found relative to \"0005\"\n");
+        fprintf(stderr, "No higher found relative to \"0006\"\n");
+        fprintf(stderr, "No lower found relative to \"0006\"\n");
+        fprintf(stderr, "Unable to open %s to read\n", argv[1]);
+        fprintf(stderr, "usage: ./tstest file\n");
+        free(p);
+        if (!ts->add(ts, p)) {
+        if (!ts->first(ts, (void **)&element)) {
+        if (!ts->pollFirst(ts, (void **)&p)) {
+        if (!ts->pollLast(ts, (void **)&p)) {
+        if (!ts->remove(ts, element, free)) {
+        if ((p = strdup(buf)) == NULL) {
+        p = strchr(buf, '\n');
+        printf("%s\n", (char *)array[i]);
+        printf("%s\n", element);
+        printf("%s\n", p);
+        printf("Ceiling relative to \"0005\" is \"%s\"\n", p);
+        printf("First element is: \"%s\"\n", p);
+        printf("Floor relative to \"0005\" is \"%s\"\n", p);
+        printf("Higher relative to \"0006\" is \"%s\"\n", p);
+        printf("Last element is: \"%s\"\n", p);
+        printf("Lower relative to \"0006\" is \"%s\"\n", p);
+        return -1;
+        }
+     * test of add()
+     * test of ceiling, floor, higher, lower
+     * test of destroy with NULL freeFxn
+     * test of destroy with free() as freeFxn
+     * test of get()
+     * test of insert
+     * test of iterator
+     * test of pollFirst and pollLast
+     * test of toArray
+     */
+    /*
+    FILE *fd;
+    char *p;
+    char buf[1024];
+    const TSIterator *it;
+    const TSOrderedSet *ts;
+    fclose(fd);
+    fd = fopen(argv[1], "r");		/* we know we can open it */
+    for (i = 0; i < n; i++) {
+    free(array);
+    i = 0;
+    i = 0L;
+    if (!ts->ceiling(ts, "0005", (void **)&p)) {
+    if (!ts->floor(ts, "0005", (void **)&p)) {
+    if (!ts->higher(ts, "0006", (void **)&p)) {
+    if (!ts->lower(ts, "0006", (void **)&p)) {
+    if ((array = ts->toArray(ts, &n)) == NULL) {
+    if ((fd = fopen(argv[1], "r")) == NULL) {
+    if ((it = ts->itCreate(ts)) == NULL) {
+    if ((ts = TSOrderedSet_create(scmp)) == NULL) {
+    if (argc != 2) {
+    it->destroy(it);
+    long i, n;
+    n = ts->size(ts) / 4;
+    n = ts->size(ts);
+    printf("===== test of add\n");
+    printf("===== test of destroy(NULL)\n");
+    printf("===== test of destroy(free)\n");
+    printf("===== test of first and remove\n");
+    printf("===== test of iterator\n");
+    printf("===== test of pollFirst - first %ld elements of the set are\n", n);
+    printf("===== test of pollLast - last %ld elements of the set are\n", n);
+    printf("===== test of toArray\n");
+    printf("Size after remove = %ld\n", ts->size(ts));
+    printf("Size before remove = %ld\n", n);
+    return 0;
+    return strcmp((char *)a, (char *)b);
+    ts->destroy(ts, NULL);
+    ts->destroy(ts, free);
+    void **array;
+    while (fgets(buf, 1024, fd) != NULL) {
+    while (it->hasNext(it)) {
+    }
+    } else
+ *
+ *   and/or other materials provided with the distribution.
+ *   contributors may be used to endorse or promote products derived from this
+ *   software without specific prior written permission.
+ *   this list of conditions and the following disclaimer in the documentation
+ *   this list of conditions and the following disclaimer.
+ * - Neither the name of the University of Oregon nor the names of its
+ * - Redistributions in binary form must reproduce the above copyright notice,
+ * - Redistributions of source code must retain the above copyright notice,
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * All rights reserved.
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * Copyright (c) 2017, University of Oregon
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * POSSIBILITY OF SUCH DAMAGE.
+ * Redistribution and use in source and binary forms, with or without
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * modification, are permitted provided that the following conditions are met:
+ */
+#include "tsorderedset.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+/*
+int main(int argc, char *argv[]) {
+static int scmp(void *a, void *b) {
+}
+Ceiling relative to "0005" is "int main(int argc, char *argv[]) {"
+Higher relative to "0006" is "int main(int argc, char *argv[]) {"
+Floor relative to "0005" is "/*"
+Lower relative to "0006" is "/*"
+===== test of pollFirst - first 32 elements of the set are
+First element is: ""
+Last element is: "}"
+
+First element is: "            fprintf(stderr, "Duplicate line: \"%s\"\n", p);"
+Last element is: "}"
+            fprintf(stderr, "Duplicate line: \"%s\"\n", p);
+First element is: "            fprintf(stderr, "Error duplicating string\n");"
+Last element is: "}"
+            fprintf(stderr, "Error duplicating string\n");
+First element is: "            fprintf(stderr, "Error invoking pollFirst()\n");"
+Last element is: "}"
+            fprintf(stderr, "Error invoking pollFirst()\n");
+First element is: "            fprintf(stderr, "Error invoking pollLast()\n");"
+Last element is: "}"
+            fprintf(stderr, "Error invoking pollLast()\n");
+First element is: "            fprintf(stderr, "Error removing %ld'th element\n", i);"
+Last element is: "}"
+            fprintf(stderr, "Error removing %ld'th element\n", i);
+First element is: "            fprintf(stderr, "Error retrieving %ld'th element\n", i);"
+Last element is: "}"
+            fprintf(stderr, "Error retrieving %ld'th element\n", i);
+First element is: "            free(p);"
+Last element is: "}"
+            free(p);
+First element is: "            return -1;"
+Last element is: "}"
+            return -1;
+First element is: "        (void) it->next(it, (void **)&p);"
+Last element is: "}"
+        (void) it->next(it, (void **)&p);
+First element is: "        (void) ts->first(ts, (void **)&p);"
+Last element is: "}"
+        (void) ts->first(ts, (void **)&p);
+First element is: "        (void) ts->last(ts, (void **)&p);"
+Last element is: "}"
+        (void) ts->last(ts, (void **)&p);
+First element is: "        *p = '\0';"
+Last element is: "}"
+        *p = '\0';
+First element is: "        char *element;"
+Last element is: "}"
+        char *element;
+First element is: "        char *p;"
+Last element is: "}"
+        char *p;
+First element is: "        fprintf(stderr, "Error creating treeset of strings\n");"
+Last element is: "}"
+        fprintf(stderr, "Error creating treeset of strings\n");
+First element is: "        fprintf(stderr, "Error in creating iterator\n");"
+Last element is: "}"
+        fprintf(stderr, "Error in creating iterator\n");
+First element is: "        fprintf(stderr, "Error in invoking ts->toArray()\n");"
+Last element is: "}"
+        fprintf(stderr, "Error in invoking ts->toArray()\n");
+First element is: "        fprintf(stderr, "No ceiling found relative to \"0005\"\n");"
+Last element is: "}"
+        fprintf(stderr, "No ceiling found relative to \"0005\"\n");
+First element is: "        fprintf(stderr, "No floor found relative to \"0005\"\n");"
+Last element is: "}"
+        fprintf(stderr, "No floor found relative to \"0005\"\n");
+First element is: "        fprintf(stderr, "No higher found relative to \"0006\"\n");"
+Last element is: "}"
+        fprintf(stderr, "No higher found relative to \"0006\"\n");
+First element is: "        fprintf(stderr, "No lower found relative to \"0006\"\n");"
+Last element is: "}"
+        fprintf(stderr, "No lower found relative to \"0006\"\n");
+First element is: "        fprintf(stderr, "Unable to open %s to read\n", argv[1]);"
+Last element is: "}"
+        fprintf(stderr, "Unable to open %s to read\n", argv[1]);
+First element is: "        fprintf(stderr, "usage: ./tstest file\n");"
+Last element is: "}"
+        fprintf(stderr, "usage: ./tstest file\n");
+First element is: "        free(p);"
+Last element is: "}"
+        free(p);
+First element is: "        if (!ts->add(ts, p)) {"
+Last element is: "}"
+        if (!ts->add(ts, p)) {
+First element is: "        if (!ts->first(ts, (void **)&element)) {"
+Last element is: "}"
+        if (!ts->first(ts, (void **)&element)) {
+First element is: "        if (!ts->pollFirst(ts, (void **)&p)) {"
+Last element is: "}"
+        if (!ts->pollFirst(ts, (void **)&p)) {
+First element is: "        if (!ts->pollLast(ts, (void **)&p)) {"
+Last element is: "}"
+        if (!ts->pollLast(ts, (void **)&p)) {
+First element is: "        if (!ts->remove(ts, element, free)) {"
+Last element is: "}"
+        if (!ts->remove(ts, element, free)) {
+First element is: "        if ((p = strdup(buf)) == NULL) {"
+Last element is: "}"
+        if ((p = strdup(buf)) == NULL) {
+First element is: "        p = strchr(buf, '\n');"
+Last element is: "}"
+        p = strchr(buf, '\n');
+===== test of pollLast - last 32 elements of the set are
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: "}"
+}
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: "static int scmp(void *a, void *b) {"
+static int scmp(void *a, void *b) {
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: "int main(int argc, char *argv[]) {"
+int main(int argc, char *argv[]) {
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: "/*"
+/*
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: "#include <string.h>"
+#include <string.h>
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: "#include <stdlib.h>"
+#include <stdlib.h>
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: "#include <stdio.h>"
+#include <stdio.h>
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: "#include "tsorderedset.h""
+#include "tsorderedset.h"
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: " */"
+ */
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: " * modification, are permitted provided that the following conditions are met:"
+ * modification, are permitted provided that the following conditions are met:
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: " * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS""
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: " * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS"
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: " * Redistribution and use in source and binary forms, with or without"
+ * Redistribution and use in source and binary forms, with or without
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: " * POSSIBILITY OF SUCH DAMAGE."
+ * POSSIBILITY OF SUCH DAMAGE.
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: " * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR"
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: " * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN"
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: " * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE"
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: " * Copyright (c) 2017, University of Oregon"
+ * Copyright (c) 2017, University of Oregon
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: " * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)"
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: " * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF"
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: " * All rights reserved."
+ * All rights reserved.
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: " * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE"
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: " * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE"
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: " * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: " * - Redistributions of source code must retain the above copyright notice,"
+ * - Redistributions of source code must retain the above copyright notice,
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: " * - Redistributions in binary form must reproduce the above copyright notice,"
+ * - Redistributions in binary form must reproduce the above copyright notice,
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: " * - Neither the name of the University of Oregon nor the names of its"
+ * - Neither the name of the University of Oregon nor the names of its
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: " *   this list of conditions and the following disclaimer."
+ *   this list of conditions and the following disclaimer.
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: " *   this list of conditions and the following disclaimer in the documentation"
+ *   this list of conditions and the following disclaimer in the documentation
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: " *   software without specific prior written permission."
+ *   software without specific prior written permission.
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: " *   contributors may be used to endorse or promote products derived from this"
+ *   contributors may be used to endorse or promote products derived from this
+First element is: "        printf("%s\n", (char *)array[i]);"
+Last element is: " *   and/or other materials provided with the distribution."
+ *   and/or other materials provided with the distribution.
+===== test of destroy(free)

@@ -1,0 +1,729 @@
+===== test of add
+===== test of get
+/*
+ * Copyright (c) 2017, University of Oregon
+ * All rights reserved.
+
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+
+ * - Redistributions of source code must retain the above copyright notice,
+ *   this list of conditions and the following disclaimer.
+ *
+ * - Redistributions in binary form must reproduce the above copyright notice,
+ *   this list of conditions and the following disclaimer in the documentation
+ *   and/or other materials provided with the distribution.
+ *
+ * - Neither the name of the University of Oregon nor the names of its
+ *   contributors may be used to endorse or promote products derived from this
+ *   software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+#include "tsarraylist.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+int main(int argc, char *argv[]) {
+    char buf[1024];
+    char *p;
+    const TSArrayList *al;
+    long i, n;
+    FILE *fd;
+    char **array;
+    const TSIterator *it;
+
+    if (argc != 2) {
+        fprintf(stderr, "usage: ./altest file\n");
+        return -1;
+    }
+    if ((al = TSArrayList_create(0L)) == NULL) {
+        fprintf(stderr, "Error creating array list of strings\n");
+        return -1;
+    }
+    if ((fd = fopen(argv[1], "r")) == NULL) {
+        fprintf(stderr, "Unable to open %s to read\n", argv[1]);
+        return -1;
+    }
+    /*
+     * test of add()
+     */
+    printf("===== test of add\n");
+    while (fgets(buf, 1024, fd) != NULL) {
+        if ((p = strdup(buf)) == NULL) {
+            fprintf(stderr, "Error duplicating string\n");
+            return -1;
+        }
+        if (!al->add(al, p)) {
+            fprintf(stderr, "Error adding string to array list\n");
+            return -1;
+        }
+    }
+    fclose(fd);
+    n = al->size(al);
+    /*
+     * test of get()
+     */
+    printf("===== test of get\n");
+    for (i = 0; i < n; i++) {
+        if (!al->get(al, i, (void **)&p)) {
+            fprintf(stderr, "Error retrieving %ld'th element\n", i);
+            return -1;
+        }
+        printf("%s", p);
+    }
+    printf("===== test of remove\n");
+    /*
+     * test of remove
+     */
+    for (i = n - 1; i >= 0; i--) {
+        if (!al->remove(al, i, (void **)&p)) {
+            fprintf(stderr, "Error removing string from array list\n");
+            return -1;
+        }
+        free(p);
+    }
+    printf("===== test of destroy(NULL)\n");
+    /*
+     * test of destroy with NULL freeFxn
+     */
+    al->destroy(al, NULL);
+    /*
+     * test of insert
+     */
+    if ((al = TSArrayList_create(0L)) == NULL) {
+        fprintf(stderr, "Error creating array list of strings\n");
+        return -1;
+    }
+    fd = fopen(argv[1], "r");		/* we know we can open it */
+    printf("===== test of insert\n");
+    while (fgets(buf, 1024, fd) != NULL) {
+        if ((p = strdup(buf)) == NULL) {
+            fprintf(stderr, "Error duplicating string\n");
+            return -1;
+        }
+        if (!al->insert(al, 0, p)) {
+            fprintf(stderr, "Error adding string to array list\n");
+            return -1;
+        }
+    }
+    fclose(fd);
+    for (i = 0; i < n; i++) {
+        if (!al->get(al, i, (void **)&p)) {
+            fprintf(stderr, "Error retrieving %ld'th element\n", i);
+            return -1;
+        }
+        printf("%s", p);
+    }
+    printf("===== test of set\n");
+    /*
+     * test of set
+     */
+    for (i = 0; i < n; i++) {
+        char bf[1024], *q;
+        sprintf(bf, "line %ld\n", i);
+        if ((p = strdup(bf)) == NULL) {
+            fprintf(stderr, "Error duplicating string\n");
+            return -1;
+        }
+        if (!al->set(al, p, i, (void **)&q)) {
+            fprintf(stderr, "Error replacing %ld'th element\n", i);
+            return -1;
+        }
+        free(q);
+    }
+    printf("===== test of toArray\n");
+    /*
+     * test of toArray
+     */
+    al->lock(al);
+    if ((array = (char **)al->toArray(al, &n)) == NULL) {
+        fprintf(stderr, "Error in invoking al->toArray()\n");
+        return -1;
+    }
+    for (i = 0; i < n; i++) {
+        printf("%s", array[i]);
+    }
+    al->unlock(al);
+    free(array);
+    printf("===== test of iterator\n");
+    /*
+     * test of iterator
+     */
+    if ((it = al->itCreate(al)) == NULL) {
+        fprintf(stderr, "Error in creating iterator\n");
+        return -1;
+    }
+    while (it->hasNext(it)) {
+        char *p;
+        (void) it->next(it, (void **)&p);
+        printf("%s", p);
+    }
+    it->destroy(it);
+    printf("===== test of destroy(free)\n");
+    /*
+     * test of destroy with free() as freeFxn
+     */
+    al->destroy(al, free);
+
+    return 0;
+}
+===== test of remove
+===== test of destroy(NULL)
+===== test of insert
+}
+    return 0;
+
+    al->destroy(al, free);
+     */
+     * test of destroy with free() as freeFxn
+    /*
+    printf("===== test of destroy(free)\n");
+    it->destroy(it);
+    }
+        printf("%s", p);
+        (void) it->next(it, (void **)&p);
+        char *p;
+    while (it->hasNext(it)) {
+    }
+        return -1;
+        fprintf(stderr, "Error in creating iterator\n");
+    if ((it = al->itCreate(al)) == NULL) {
+     */
+     * test of iterator
+    /*
+    printf("===== test of iterator\n");
+    free(array);
+    al->unlock(al);
+    }
+        printf("%s", array[i]);
+    for (i = 0; i < n; i++) {
+    }
+        return -1;
+        fprintf(stderr, "Error in invoking al->toArray()\n");
+    if ((array = (char **)al->toArray(al, &n)) == NULL) {
+    al->lock(al);
+     */
+     * test of toArray
+    /*
+    printf("===== test of toArray\n");
+    }
+        free(q);
+        }
+            return -1;
+            fprintf(stderr, "Error replacing %ld'th element\n", i);
+        if (!al->set(al, p, i, (void **)&q)) {
+        }
+            return -1;
+            fprintf(stderr, "Error duplicating string\n");
+        if ((p = strdup(bf)) == NULL) {
+        sprintf(bf, "line %ld\n", i);
+        char bf[1024], *q;
+    for (i = 0; i < n; i++) {
+     */
+     * test of set
+    /*
+    printf("===== test of set\n");
+    }
+        printf("%s", p);
+        }
+            return -1;
+            fprintf(stderr, "Error retrieving %ld'th element\n", i);
+        if (!al->get(al, i, (void **)&p)) {
+    for (i = 0; i < n; i++) {
+    fclose(fd);
+    }
+        }
+            return -1;
+            fprintf(stderr, "Error adding string to array list\n");
+        if (!al->insert(al, 0, p)) {
+        }
+            return -1;
+            fprintf(stderr, "Error duplicating string\n");
+        if ((p = strdup(buf)) == NULL) {
+    while (fgets(buf, 1024, fd) != NULL) {
+    printf("===== test of insert\n");
+    fd = fopen(argv[1], "r");		/* we know we can open it */
+    }
+        return -1;
+        fprintf(stderr, "Error creating array list of strings\n");
+    if ((al = TSArrayList_create(0L)) == NULL) {
+     */
+     * test of insert
+    /*
+    al->destroy(al, NULL);
+     */
+     * test of destroy with NULL freeFxn
+    /*
+    printf("===== test of destroy(NULL)\n");
+    }
+        free(p);
+        }
+            return -1;
+            fprintf(stderr, "Error removing string from array list\n");
+        if (!al->remove(al, i, (void **)&p)) {
+    for (i = n - 1; i >= 0; i--) {
+     */
+     * test of remove
+    /*
+    printf("===== test of remove\n");
+    }
+        printf("%s", p);
+        }
+            return -1;
+            fprintf(stderr, "Error retrieving %ld'th element\n", i);
+        if (!al->get(al, i, (void **)&p)) {
+    for (i = 0; i < n; i++) {
+    printf("===== test of get\n");
+     */
+     * test of get()
+    /*
+    n = al->size(al);
+    fclose(fd);
+    }
+        }
+            return -1;
+            fprintf(stderr, "Error adding string to array list\n");
+        if (!al->add(al, p)) {
+        }
+            return -1;
+            fprintf(stderr, "Error duplicating string\n");
+        if ((p = strdup(buf)) == NULL) {
+    while (fgets(buf, 1024, fd) != NULL) {
+    printf("===== test of add\n");
+     */
+     * test of add()
+    /*
+    }
+        return -1;
+        fprintf(stderr, "Unable to open %s to read\n", argv[1]);
+    if ((fd = fopen(argv[1], "r")) == NULL) {
+    }
+        return -1;
+        fprintf(stderr, "Error creating array list of strings\n");
+    if ((al = TSArrayList_create(0L)) == NULL) {
+    }
+        return -1;
+        fprintf(stderr, "usage: ./altest file\n");
+    if (argc != 2) {
+
+    const TSIterator *it;
+    char **array;
+    FILE *fd;
+    long i, n;
+    const TSArrayList *al;
+    char *p;
+    char buf[1024];
+int main(int argc, char *argv[]) {
+
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include "tsarraylist.h"
+
+ */
+ * POSSIBILITY OF SUCH DAMAGE.
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *
+ *   software without specific prior written permission.
+ *   contributors may be used to endorse or promote products derived from this
+ * - Neither the name of the University of Oregon nor the names of its
+ *
+ *   and/or other materials provided with the distribution.
+ *   this list of conditions and the following disclaimer in the documentation
+ * - Redistributions in binary form must reproduce the above copyright notice,
+ *
+ *   this list of conditions and the following disclaimer.
+ * - Redistributions of source code must retain the above copyright notice,
+
+ * modification, are permitted provided that the following conditions are met:
+ * Redistribution and use in source and binary forms, with or without
+
+ * All rights reserved.
+ * Copyright (c) 2017, University of Oregon
+/*
+===== test of set
+===== test of toArray
+line 0
+line 1
+line 2
+line 3
+line 4
+line 5
+line 6
+line 7
+line 8
+line 9
+line 10
+line 11
+line 12
+line 13
+line 14
+line 15
+line 16
+line 17
+line 18
+line 19
+line 20
+line 21
+line 22
+line 23
+line 24
+line 25
+line 26
+line 27
+line 28
+line 29
+line 30
+line 31
+line 32
+line 33
+line 34
+line 35
+line 36
+line 37
+line 38
+line 39
+line 40
+line 41
+line 42
+line 43
+line 44
+line 45
+line 46
+line 47
+line 48
+line 49
+line 50
+line 51
+line 52
+line 53
+line 54
+line 55
+line 56
+line 57
+line 58
+line 59
+line 60
+line 61
+line 62
+line 63
+line 64
+line 65
+line 66
+line 67
+line 68
+line 69
+line 70
+line 71
+line 72
+line 73
+line 74
+line 75
+line 76
+line 77
+line 78
+line 79
+line 80
+line 81
+line 82
+line 83
+line 84
+line 85
+line 86
+line 87
+line 88
+line 89
+line 90
+line 91
+line 92
+line 93
+line 94
+line 95
+line 96
+line 97
+line 98
+line 99
+line 100
+line 101
+line 102
+line 103
+line 104
+line 105
+line 106
+line 107
+line 108
+line 109
+line 110
+line 111
+line 112
+line 113
+line 114
+line 115
+line 116
+line 117
+line 118
+line 119
+line 120
+line 121
+line 122
+line 123
+line 124
+line 125
+line 126
+line 127
+line 128
+line 129
+line 130
+line 131
+line 132
+line 133
+line 134
+line 135
+line 136
+line 137
+line 138
+line 139
+line 140
+line 141
+line 142
+line 143
+line 144
+line 145
+line 146
+line 147
+line 148
+line 149
+line 150
+line 151
+line 152
+line 153
+line 154
+line 155
+line 156
+line 157
+line 158
+line 159
+line 160
+line 161
+line 162
+line 163
+line 164
+line 165
+line 166
+line 167
+line 168
+line 169
+line 170
+line 171
+line 172
+line 173
+line 174
+line 175
+line 176
+line 177
+line 178
+line 179
+===== test of iterator
+line 0
+line 1
+line 2
+line 3
+line 4
+line 5
+line 6
+line 7
+line 8
+line 9
+line 10
+line 11
+line 12
+line 13
+line 14
+line 15
+line 16
+line 17
+line 18
+line 19
+line 20
+line 21
+line 22
+line 23
+line 24
+line 25
+line 26
+line 27
+line 28
+line 29
+line 30
+line 31
+line 32
+line 33
+line 34
+line 35
+line 36
+line 37
+line 38
+line 39
+line 40
+line 41
+line 42
+line 43
+line 44
+line 45
+line 46
+line 47
+line 48
+line 49
+line 50
+line 51
+line 52
+line 53
+line 54
+line 55
+line 56
+line 57
+line 58
+line 59
+line 60
+line 61
+line 62
+line 63
+line 64
+line 65
+line 66
+line 67
+line 68
+line 69
+line 70
+line 71
+line 72
+line 73
+line 74
+line 75
+line 76
+line 77
+line 78
+line 79
+line 80
+line 81
+line 82
+line 83
+line 84
+line 85
+line 86
+line 87
+line 88
+line 89
+line 90
+line 91
+line 92
+line 93
+line 94
+line 95
+line 96
+line 97
+line 98
+line 99
+line 100
+line 101
+line 102
+line 103
+line 104
+line 105
+line 106
+line 107
+line 108
+line 109
+line 110
+line 111
+line 112
+line 113
+line 114
+line 115
+line 116
+line 117
+line 118
+line 119
+line 120
+line 121
+line 122
+line 123
+line 124
+line 125
+line 126
+line 127
+line 128
+line 129
+line 130
+line 131
+line 132
+line 133
+line 134
+line 135
+line 136
+line 137
+line 138
+line 139
+line 140
+line 141
+line 142
+line 143
+line 144
+line 145
+line 146
+line 147
+line 148
+line 149
+line 150
+line 151
+line 152
+line 153
+line 154
+line 155
+line 156
+line 157
+line 158
+line 159
+line 160
+line 161
+line 162
+line 163
+line 164
+line 165
+line 166
+line 167
+line 168
+line 169
+line 170
+line 171
+line 172
+line 173
+line 174
+line 175
+line 176
+line 177
+line 178
+line 179
+===== test of destroy(free)

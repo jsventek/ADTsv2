@@ -1,0 +1,512 @@
+Duplicate line: ""
+Duplicate line: " *"
+Duplicate line: " *"
+Duplicate line: ""
+Duplicate line: ""
+Duplicate line: ""
+Duplicate line: ""
+Duplicate line: "}"
+Duplicate line: ""
+Duplicate line: ""
+Duplicate line: "        return -1;"
+Duplicate line: "    }"
+Duplicate line: "        return -1;"
+Duplicate line: "    }"
+Duplicate line: "        }"
+Duplicate line: "    }"
+Duplicate line: "    /*"
+Duplicate line: "     */"
+Duplicate line: "    i = 0;"
+Duplicate line: "    while (fgets(buf, 1024, fd) != NULL) {"
+Duplicate line: "        p = strchr(buf, '\n');"
+Duplicate line: "        *p = '\0';"
+Duplicate line: "        }"
+Duplicate line: "    }"
+Duplicate line: "    fclose(fd);"
+Duplicate line: "    /*"
+Duplicate line: "     */"
+Duplicate line: "    /*"
+Duplicate line: "     */"
+Duplicate line: "    if ((us = TSUnorderedSet_create(scmp, shash, 0L, 0.0)) == NULL) {"
+Duplicate line: "        fprintf(stderr, "Error creating hashset of strings\n");"
+Duplicate line: "        return -1;"
+Duplicate line: "    }"
+Duplicate line: "    while (fgets(buf, 1024, fd) != NULL) {"
+Duplicate line: "        p = strchr(buf, '\n');"
+Duplicate line: "        *p = '\0';"
+Duplicate line: "        if ((p = strdup(buf)) == NULL) {"
+Duplicate line: "            fprintf(stderr, "Error duplicating string\n");"
+Duplicate line: "            return -1;"
+Duplicate line: "        }"
+Duplicate line: "        if (!us->add(us, p)) {"
+Duplicate line: "            free(p);"
+Duplicate line: "        }"
+Duplicate line: "    }"
+Duplicate line: "    fclose(fd);"
+Duplicate line: "    /*"
+Duplicate line: "     */"
+Duplicate line: "        return -1;"
+Duplicate line: "    }"
+Duplicate line: "    }"
+Duplicate line: "    /*"
+Duplicate line: "     */"
+Duplicate line: "        return -1;"
+Duplicate line: "    }"
+Duplicate line: "    }"
+Duplicate line: "    /*"
+Duplicate line: "     */"
+Duplicate line: ""
+Duplicate line: "}"
+Error removing 6'th element
+Error removing 13'th element
+Error removing 17'th element
+Error removing 30'th element
+Error removing 35'th element
+Error removing 39'th element
+Error removing 44'th element
+Error removing 48'th element
+Error removing 49'th element
+Error removing 58'th element
+Error removing 65'th element
+Error removing 66'th element
+Error removing 69'th element
+Error removing 70'th element
+Error removing 86'th element
+Error removing 87'th element
+Error removing 90'th element
+Error removing 92'th element
+Error removing 96'th element
+Error removing 97'th element
+Error removing 98'th element
+Error removing 99'th element
+Error removing 103'th element
+Error removing 105'th element
+Error removing 106'th element
+Error removing 108'th element
+Error removing 110'th element
+Error removing 113'th element
+Error removing 115'th element
+Error removing 116'th element
+Error removing 117'th element
+Error removing 118'th element
+Error removing 119'th element
+Error removing 122'th element
+Error removing 123'th element
+Error removing 124'th element
+Error removing 125'th element
+Error removing 126'th element
+Error removing 127'th element
+Error removing 128'th element
+Error removing 129'th element
+Error removing 130'th element
+Error removing 131'th element
+Error removing 132'th element
+Error removing 133'th element
+Error removing 134'th element
+Error removing 136'th element
+Error removing 140'th element
+Error removing 141'th element
+Error removing 144'th element
+Error removing 146'th element
+Error removing 148'th element
+Error removing 152'th element
+Error removing 153'th element
+Error removing 158'th element
+Error removing 160'th element
+Error removing 162'th element
+Error removing 165'th element
+Error removing 167'th element
+===== test of add
+===== test of remove
+Size before remove = 109
+/*
+ * Copyright (c) 2017, University of Oregon
+ * All rights reserved.
+
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+
+ * - Redistributions of source code must retain the above copyright notice,
+ *   this list of conditions and the following disclaimer.
+ *
+ * - Redistributions in binary form must reproduce the above copyright notice,
+ *   this list of conditions and the following disclaimer in the documentation
+ *   and/or other materials provided with the distribution.
+ *
+ * - Neither the name of the University of Oregon nor the names of its
+ *   contributors may be used to endorse or promote products derived from this
+ *   software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+#include "tsunorderedset.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+static int scmp(void *a, void *b) {
+    return strcmp((char *)a, (char *)b);
+}
+
+#define SHIFT 7L
+static long shash(void *s, long N) {
+    long ans = 0L;
+    char *sp;
+
+    for (sp = (char *)s; *sp != '\0'; sp++)
+        ans = ((SHIFT * ans) + *sp) % N;
+    return ans;
+}
+
+int main(int argc, char *argv[]) {
+    char buf[1024];
+    char *p;
+    const TSUnorderedSet *us;
+    long i, n;
+    FILE *fd;
+    const TSIterator *it;
+    void **array;
+
+    if (argc != 2) {
+        fprintf(stderr, "usage: ./tsustest file\n");
+        return -1;
+    }
+    if ((us = TSUnorderedSet_create(scmp, shash, 0L, 0.0)) == NULL) {
+        fprintf(stderr, "Error creating hashset of strings\n");
+        return -1;
+    }
+    if ((fd = fopen(argv[1], "r")) == NULL) {
+        fprintf(stderr, "Unable to open %s to read\n", argv[1]);
+        return -1;
+    }
+    /*
+     * test of add()
+     */
+    printf("===== test of add\n");
+    i = 0;
+    while (fgets(buf, 1024, fd) != NULL) {
+        p = strchr(buf, '\n');
+        *p = '\0';
+        if ((p = strdup(buf)) == NULL) {
+            fprintf(stderr, "Error duplicating string\n");
+            return -1;
+        }
+        if (!us->add(us, p)) {
+            fprintf(stderr, "Duplicate line: \"%s\"\n", p);
+            free(p);
+        }
+    }
+    fclose(fd);
+    n = us->size(us);
+    /*
+     * test of remove()
+     */
+    printf("===== test of remove\n");
+    printf("Size before remove = %ld\n", n);
+    fd = fopen(argv[1], "r");	/* We know we can open it */
+    i = 0;
+    while (fgets(buf, 1024, fd) != NULL) {
+        p = strchr(buf, '\n');
+        *p = '\0';
+        printf("%s\n", buf);
+        if (!us->remove(us, buf, free)) {
+            fprintf(stderr, "Error removing %ld'th element\n", i);
+        }
+        i++;
+    }
+    fclose(fd);
+    printf("Size after remove = %ld\n", us->size(us));
+    /*
+     * test of destroy with NULL freeFxn
+     */
+    printf("===== test of destroy(NULL)\n");
+    us->destroy(us, NULL);
+    /*
+     * recreate hashset
+     */
+    if ((us = TSUnorderedSet_create(scmp, shash, 0L, 0.0)) == NULL) {
+        fprintf(stderr, "Error creating hashset of strings\n");
+        return -1;
+    }
+    fd = fopen(argv[1], "r");		/* we know we can open it */
+    i = 0L;
+    while (fgets(buf, 1024, fd) != NULL) {
+        p = strchr(buf, '\n');
+        *p = '\0';
+        if ((p = strdup(buf)) == NULL) {
+            fprintf(stderr, "Error duplicating string\n");
+            return -1;
+        }
+        if (!us->add(us, p)) {
+            free(p);
+        }
+    }
+    fclose(fd);
+    /*
+     * test of toArray
+     */
+    printf("===== test of toArray\n");
+    if ((array = us->toArray(us, &n)) == NULL) {
+        fprintf(stderr, "Error in invoking us->toArray()\n");
+        return -1;
+    }
+    for (i = 0; i < n; i++) {
+        printf("%s\n", (char *)array[i]);
+    }
+    free(array);
+    /*
+     * test of iterator
+     */
+    printf("===== test of iterator\n");
+    if ((it = us->itCreate(us)) == NULL) {
+        fprintf(stderr, "Error in creating iterator\n");
+        return -1;
+    }
+    while (it->hasNext(it)) {
+        char *p;
+        (void) it->next(it, (void **)&p);
+        printf("%s\n", p);
+    }
+    it->destroy(it);
+    /*
+     * test of destroy with free() as freeFxn
+     */
+    printf("===== test of destroy(free)\n");
+    us->destroy(us, free);
+
+    return 0;
+}
+Size after remove = 0
+===== test of destroy(NULL)
+===== test of toArray
+
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+    char buf[1024];
+    const TSUnorderedSet *us;
+     * test of add()
+ * - Redistributions in binary form must reproduce the above copyright notice,
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+#include <string.h>
+    return strcmp((char *)a, (char *)b);
+static long shash(void *s, long N) {
+        printf("%s\n", buf);
+    printf("Size after remove = %ld\n", us->size(us));
+ * POSSIBILITY OF SUCH DAMAGE.
+    us->destroy(us, free);
+ *   software without specific prior written permission.
+static int scmp(void *a, void *b) {
+        ans = ((SHIFT * ans) + *sp) % N;
+    return ans;
+    i = 0;
+    printf("===== test of toArray\n");
+        fprintf(stderr, "Error in invoking us->toArray()\n");
+        fprintf(stderr, "Error in creating iterator\n");
+ * modification, are permitted provided that the following conditions are met:
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+    void **array;
+        p = strchr(buf, '\n');
+            fprintf(stderr, "Error duplicating string\n");
+            free(p);
+    while (it->hasNext(it)) {
+    FILE *fd;
+    printf("Size before remove = %ld\n", n);
+    printf("===== test of destroy(NULL)\n");
+     * test of iterator
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+    if (argc != 2) {
+ * Redistribution and use in source and binary forms, with or without
+     * recreate hashset
+    for (i = 0; i < n; i++) {
+ *
+int main(int argc, char *argv[]) {
+        *p = '\0';
+     * test of destroy with NULL freeFxn
+    return 0;
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+        if (!us->remove(us, buf, free)) {
+    printf("===== test of iterator\n");
+ * Copyright (c) 2017, University of Oregon
+    if ((fd = fopen(argv[1], "r")) == NULL) {
+    fd = fopen(argv[1], "r");		/* we know we can open it */
+#define SHIFT 7L
+    if ((us = TSUnorderedSet_create(scmp, shash, 0L, 0.0)) == NULL) {
+        if ((p = strdup(buf)) == NULL) {
+ *   this list of conditions and the following disclaimer.
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+        return -1;
+            return -1;
+        if (!us->add(us, p)) {
+ *   contributors may be used to endorse or promote products derived from this
+#include <stdlib.h>
+        fprintf(stderr, "Error creating hashset of strings\n");
+        fprintf(stderr, "Unable to open %s to read\n", argv[1]);
+    fd = fopen(argv[1], "r");	/* We know we can open it */
+     * test of destroy with free() as freeFxn
+ * All rights reserved.
+            fprintf(stderr, "Duplicate line: \"%s\"\n", p);
+        i++;
+/*
+ *   and/or other materials provided with the distribution.
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+    /*
+    printf("===== test of destroy(free)\n");
+#include "tsunorderedset.h"
+#include <stdio.h>
+    const TSIterator *it;
+    while (fgets(buf, 1024, fd) != NULL) {
+        printf("%s\n", (char *)array[i]);
+ */
+     */
+    i = 0L;
+    if ((array = us->toArray(us, &n)) == NULL) {
+    long i, n;
+    fclose(fd);
+     * test of remove()
+    it->destroy(it);
+        printf("%s\n", p);
+    free(array);
+    us->destroy(us, NULL);
+ *   this list of conditions and the following disclaimer in the documentation
+ * - Neither the name of the University of Oregon nor the names of its
+    for (sp = (char *)s; *sp != '\0'; sp++)
+        fprintf(stderr, "usage: ./tsustest file\n");
+    printf("===== test of add\n");
+    if ((it = us->itCreate(us)) == NULL) {
+        char *p;
+ * - Redistributions of source code must retain the above copyright notice,
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+    char *p;
+    n = us->size(us);
+        (void) it->next(it, (void **)&p);
+}
+    }
+        }
+    printf("===== test of remove\n");
+            fprintf(stderr, "Error removing %ld'th element\n", i);
+     * test of toArray
+    long ans = 0L;
+    char *sp;
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+===== test of iterator
+
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+    char buf[1024];
+    const TSUnorderedSet *us;
+     * test of add()
+ * - Redistributions in binary form must reproduce the above copyright notice,
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+#include <string.h>
+    return strcmp((char *)a, (char *)b);
+static long shash(void *s, long N) {
+        printf("%s\n", buf);
+    printf("Size after remove = %ld\n", us->size(us));
+ * POSSIBILITY OF SUCH DAMAGE.
+    us->destroy(us, free);
+ *   software without specific prior written permission.
+static int scmp(void *a, void *b) {
+        ans = ((SHIFT * ans) + *sp) % N;
+    return ans;
+    i = 0;
+    printf("===== test of toArray\n");
+        fprintf(stderr, "Error in invoking us->toArray()\n");
+        fprintf(stderr, "Error in creating iterator\n");
+ * modification, are permitted provided that the following conditions are met:
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+    void **array;
+        p = strchr(buf, '\n');
+            fprintf(stderr, "Error duplicating string\n");
+            free(p);
+    while (it->hasNext(it)) {
+    FILE *fd;
+    printf("Size before remove = %ld\n", n);
+    printf("===== test of destroy(NULL)\n");
+     * test of iterator
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+    if (argc != 2) {
+ * Redistribution and use in source and binary forms, with or without
+     * recreate hashset
+    for (i = 0; i < n; i++) {
+ *
+int main(int argc, char *argv[]) {
+        *p = '\0';
+     * test of destroy with NULL freeFxn
+    return 0;
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+        if (!us->remove(us, buf, free)) {
+    printf("===== test of iterator\n");
+ * Copyright (c) 2017, University of Oregon
+    if ((fd = fopen(argv[1], "r")) == NULL) {
+    fd = fopen(argv[1], "r");		/* we know we can open it */
+#define SHIFT 7L
+    if ((us = TSUnorderedSet_create(scmp, shash, 0L, 0.0)) == NULL) {
+        if ((p = strdup(buf)) == NULL) {
+ *   this list of conditions and the following disclaimer.
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+        return -1;
+            return -1;
+        if (!us->add(us, p)) {
+ *   contributors may be used to endorse or promote products derived from this
+#include <stdlib.h>
+        fprintf(stderr, "Error creating hashset of strings\n");
+        fprintf(stderr, "Unable to open %s to read\n", argv[1]);
+    fd = fopen(argv[1], "r");	/* We know we can open it */
+     * test of destroy with free() as freeFxn
+ * All rights reserved.
+            fprintf(stderr, "Duplicate line: \"%s\"\n", p);
+        i++;
+/*
+ *   and/or other materials provided with the distribution.
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+    /*
+    printf("===== test of destroy(free)\n");
+#include "tsunorderedset.h"
+#include <stdio.h>
+    const TSIterator *it;
+    while (fgets(buf, 1024, fd) != NULL) {
+        printf("%s\n", (char *)array[i]);
+ */
+     */
+    i = 0L;
+    if ((array = us->toArray(us, &n)) == NULL) {
+    long i, n;
+    fclose(fd);
+     * test of remove()
+    it->destroy(it);
+        printf("%s\n", p);
+    free(array);
+    us->destroy(us, NULL);
+ *   this list of conditions and the following disclaimer in the documentation
+ * - Neither the name of the University of Oregon nor the names of its
+    for (sp = (char *)s; *sp != '\0'; sp++)
+        fprintf(stderr, "usage: ./tsustest file\n");
+    printf("===== test of add\n");
+    if ((it = us->itCreate(us)) == NULL) {
+        char *p;
+ * - Redistributions of source code must retain the above copyright notice,
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+    char *p;
+    n = us->size(us);
+        (void) it->next(it, (void **)&p);
+}
+    }
+        }
+    printf("===== test of remove\n");
+            fprintf(stderr, "Error removing %ld'th element\n", i);
+     * test of toArray
+    long ans = 0L;
+    char *sp;
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+===== test of destroy(free)

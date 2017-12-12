@@ -1,0 +1,802 @@
+===== test of put when key not in hashmap
+===== test of get
+0,/*
+1, * Copyright (c) 2017, University of Oregon
+2, * All rights reserved.
+3,
+4, * Redistribution and use in source and binary forms, with or without
+5, * modification, are permitted provided that the following conditions are met:
+6,
+7, * - Redistributions of source code must retain the above copyright notice,
+8, *   this list of conditions and the following disclaimer.
+9, *
+10, * - Redistributions in binary form must reproduce the above copyright notice,
+11, *   this list of conditions and the following disclaimer in the documentation
+12, *   and/or other materials provided with the distribution.
+13, *
+14, * - Neither the name of the University of Oregon nor the names of its
+15, *   contributors may be used to endorse or promote products derived from this
+16, *   software without specific prior written permission.
+17, *
+18, * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+19, * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+20, * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+21, * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+22, * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+23, * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+24, * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+25, * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+26, * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+27, * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+28, * POSSIBILITY OF SUCH DAMAGE.
+29, */
+30,
+31,#include "tshashmap.h"
+32,#include <stdio.h>
+33,#include <string.h>
+34,#include <stdlib.h>
+35,
+36,int main(int argc, char *argv[]) {
+37,    char buf[1024];
+38,    char key[20];
+39,    char *p;
+40,    const TSHashMap *hm;
+41,    long i, n;
+42,    FILE *fd;
+43,    HMEntry **array;
+44,    const TSIterator *it;
+45,
+46,    if (argc != 2) {
+47,        fprintf(stderr, "usage: ./hmtest file\n");
+48,        return -1;
+49,    }
+50,    if ((hm = TSHashMap_create(0L, 0.0)) == NULL) {
+51,        fprintf(stderr, "Error creating hashmap of strings\n");
+52,        return -1;
+53,    }
+54,    if ((fd = fopen(argv[1], "r")) == NULL) {
+55,        fprintf(stderr, "Unable to open %s to read\n", argv[1]);
+56,        return -1;
+57,    }
+58,    /*
+59,     * test of put()
+60,     */
+61,    printf("===== test of put when key not in hashmap\n");
+62,    i = 0;
+63,    while (fgets(buf, 1024, fd) != NULL) {
+64,        char *prev;
+65,
+66,        if ((p = strdup(buf)) == NULL) {
+67,            fprintf(stderr, "Error duplicating string\n");
+68,            return -1;
+69,        }
+70,        sprintf(key, "%ld", i++);
+71,        if (!hm->put(hm, key, p, (void**)&prev)) {
+72,            fprintf(stderr, "Error adding key,string to hashmap\n");
+73,            return -1;
+74,        }
+75,    }
+76,    fclose(fd);
+77,    n = hm->size(hm);
+78,    /*
+79,     * test of get()
+80,     */
+81,    printf("===== test of get\n");
+82,    for (i = 0; i < n; i++) {
+83,        char *element;
+84,
+85,        sprintf(key, "%ld", i);
+86,        if (!hm->get(hm, key, (void **)&element)) {
+87,            fprintf(stderr, "Error retrieving %ld'th element\n", i);
+88,            return -1;
+89,        }
+90,        printf("%s,%s", key, element);
+91,    }
+92,    /*
+93,     * test of remove
+94,     */
+95,    printf("===== test of remove\n");
+96,    printf("Size before remove = %ld\n", n);
+97,    for (i = n - 1; i >= 0; i--) {
+98,        sprintf(key, "%ld", i);
+99,        if (!hm->remove(hm, key, (void **)&p)) {
+100,            fprintf(stderr, "Error removing %ld'th element\n", i);
+101,            return -1;
+102,        }
+103,        free(p);
+104,    }
+105,    printf("Size after remove = %ld\n", hm->size(hm));
+106,    /*
+107,     * test of destroy with NULL freeFxn
+108,     */
+109,    printf("===== test of destroy(NULL)\n");
+110,    hm->destroy(hm, NULL);
+111,    /*
+112,     * test of insert
+113,     */
+114,    if ((hm = TSHashMap_create(0L, 0.0)) == NULL) {
+115,        fprintf(stderr, "Error creating hashmap of strings\n");
+116,        return -1;
+117,    }
+118,    fd = fopen(argv[1], "r");		/* we know we can open it */
+119,    i = 0L;
+120,    while (fgets(buf, 1024, fd) != NULL) {
+121,        char *prev;
+122,
+123,        if ((p = strdup(buf)) == NULL) {
+124,            fprintf(stderr, "Error duplicating string\n");
+125,            return -1;
+126,        }
+127,        sprintf(key, "%ld", i++);
+128,        if (!hm->put(hm, key, p, (void **)&prev)) {
+129,            fprintf(stderr, "Error adding key,value to hashmap\n");
+130,            return -1;
+131,        }
+132,    }
+133,    fclose(fd);
+134,    /*
+135,     * test of put replacing value associated with an existing key
+136,     */
+137,    printf("===== test of put (replace value associated with key)\n");
+138,    for (i = 0; i < n; i++) {
+139,        char bf[1024], *q;
+140,        sprintf(bf, "line %ld\n", i);
+141,        if ((p = strdup(bf)) == NULL) {
+142,            fprintf(stderr, "Error duplicating string\n");
+143,            return -1;
+144,        }
+145,        sprintf(key, "%ld", i);
+146,        if (!hm->put(hm, key, p, (void **)&q)) {
+147,            fprintf(stderr, "Error replacing %ld'th element\n", i);
+148,            return -1;
+149,        }
+150,        free(q);
+151,    }
+152,    for (i = 0; i < n; i++) {
+153,        char *element;
+154,
+155,        sprintf(key, "%ld", i);
+156,        if (!hm->get(hm, key, (void **)&element)) {
+157,            fprintf(stderr, "Error retrieving %ld'th element\n", i);
+158,            return -1;
+159,        }
+160,        printf("%s,%s", key, element);
+161,    }
+162,    /*
+163,     * test of entryArray
+164,     */
+165,    printf("===== test of entryArray\n");
+166,    hm->lock(hm);
+167,    if ((array = (HMEntry **)hm->entryArray(hm, &n)) == NULL) {
+168,        fprintf(stderr, "Error in invoking hm->entryArray()\n");
+169,        return -1;
+170,    }
+171,    for (i = 0; i < n; i++) {
+172,        printf("%s,%s", hmentry_key(array[i]), (char *)hmentry_value(array[i]));
+173,    }
+174,    hm->unlock(hm);
+175,    free(array);
+176,    /*
+177,     * test of iterator
+178,     */
+179,    printf("===== test of iterator\n");
+180,    if ((it = hm->itCreate(hm)) == NULL) {
+181,        fprintf(stderr, "Error in creating iterator\n");
+182,        return -1;
+183,    }
+184,    while (it->hasNext(it)) {
+185,        HMEntry *p;
+186,        (void) it->next(it, (void **)&p);
+187,        printf("%s,%s", hmentry_key(p), (char *)hmentry_value(p));
+188,    }
+189,    it->destroy(it);
+190,    /*
+191,     * test of destroy with free() as freeFxn
+192,     */
+193,    printf("===== test of destroy(free)\n");
+194,    hm->destroy(hm, free);
+195,
+196,    return 0;
+197,}
+===== test of remove
+Size before remove = 198
+Size after remove = 0
+===== test of destroy(NULL)
+===== test of put (replace value associated with key)
+0,line 0
+1,line 1
+2,line 2
+3,line 3
+4,line 4
+5,line 5
+6,line 6
+7,line 7
+8,line 8
+9,line 9
+10,line 10
+11,line 11
+12,line 12
+13,line 13
+14,line 14
+15,line 15
+16,line 16
+17,line 17
+18,line 18
+19,line 19
+20,line 20
+21,line 21
+22,line 22
+23,line 23
+24,line 24
+25,line 25
+26,line 26
+27,line 27
+28,line 28
+29,line 29
+30,line 30
+31,line 31
+32,line 32
+33,line 33
+34,line 34
+35,line 35
+36,line 36
+37,line 37
+38,line 38
+39,line 39
+40,line 40
+41,line 41
+42,line 42
+43,line 43
+44,line 44
+45,line 45
+46,line 46
+47,line 47
+48,line 48
+49,line 49
+50,line 50
+51,line 51
+52,line 52
+53,line 53
+54,line 54
+55,line 55
+56,line 56
+57,line 57
+58,line 58
+59,line 59
+60,line 60
+61,line 61
+62,line 62
+63,line 63
+64,line 64
+65,line 65
+66,line 66
+67,line 67
+68,line 68
+69,line 69
+70,line 70
+71,line 71
+72,line 72
+73,line 73
+74,line 74
+75,line 75
+76,line 76
+77,line 77
+78,line 78
+79,line 79
+80,line 80
+81,line 81
+82,line 82
+83,line 83
+84,line 84
+85,line 85
+86,line 86
+87,line 87
+88,line 88
+89,line 89
+90,line 90
+91,line 91
+92,line 92
+93,line 93
+94,line 94
+95,line 95
+96,line 96
+97,line 97
+98,line 98
+99,line 99
+100,line 100
+101,line 101
+102,line 102
+103,line 103
+104,line 104
+105,line 105
+106,line 106
+107,line 107
+108,line 108
+109,line 109
+110,line 110
+111,line 111
+112,line 112
+113,line 113
+114,line 114
+115,line 115
+116,line 116
+117,line 117
+118,line 118
+119,line 119
+120,line 120
+121,line 121
+122,line 122
+123,line 123
+124,line 124
+125,line 125
+126,line 126
+127,line 127
+128,line 128
+129,line 129
+130,line 130
+131,line 131
+132,line 132
+133,line 133
+134,line 134
+135,line 135
+136,line 136
+137,line 137
+138,line 138
+139,line 139
+140,line 140
+141,line 141
+142,line 142
+143,line 143
+144,line 144
+145,line 145
+146,line 146
+147,line 147
+148,line 148
+149,line 149
+150,line 150
+151,line 151
+152,line 152
+153,line 153
+154,line 154
+155,line 155
+156,line 156
+157,line 157
+158,line 158
+159,line 159
+160,line 160
+161,line 161
+162,line 162
+163,line 163
+164,line 164
+165,line 165
+166,line 166
+167,line 167
+168,line 168
+169,line 169
+170,line 170
+171,line 171
+172,line 172
+173,line 173
+174,line 174
+175,line 175
+176,line 176
+177,line 177
+178,line 178
+179,line 179
+180,line 180
+181,line 181
+182,line 182
+183,line 183
+184,line 184
+185,line 185
+186,line 186
+187,line 187
+188,line 188
+189,line 189
+190,line 190
+191,line 191
+192,line 192
+193,line 193
+194,line 194
+195,line 195
+196,line 196
+197,line 197
+===== test of entryArray
+190,line 190
+187,line 187
+143,line 143
+44,line 44
+88,line 88
+91,line 91
+191,line 191
+188,line 188
+144,line 144
+45,line 45
+89,line 89
+92,line 92
+100,line 100
+192,line 192
+189,line 189
+145,line 145
+101,line 101
+46,line 46
+93,line 93
+193,line 193
+146,line 146
+102,line 102
+47,line 47
+50,line 50
+94,line 94
+194,line 194
+150,line 150
+147,line 147
+103,line 103
+48,line 48
+51,line 51
+95,line 95
+195,line 195
+151,line 151
+148,line 148
+104,line 104
+49,line 49
+52,line 52
+96,line 96
+196,line 196
+152,line 152
+149,line 149
+105,line 105
+53,line 53
+97,line 97
+197,line 197
+153,line 153
+106,line 106
+10,line 10
+54,line 54
+98,line 98
+154,line 154
+110,line 110
+107,line 107
+11,line 11
+55,line 55
+99,line 99
+155,line 155
+111,line 111
+108,line 108
+12,line 12
+56,line 56
+156,line 156
+112,line 112
+109,line 109
+13,line 13
+57,line 57
+60,line 60
+160,line 160
+157,line 157
+113,line 113
+14,line 14
+58,line 58
+61,line 61
+161,line 161
+158,line 158
+114,line 114
+15,line 15
+59,line 59
+62,line 62
+162,line 162
+159,line 159
+115,line 115
+16,line 16
+63,line 63
+163,line 163
+116,line 116
+17,line 17
+20,line 20
+64,line 64
+164,line 164
+120,line 120
+117,line 117
+18,line 18
+21,line 21
+65,line 65
+165,line 165
+121,line 121
+118,line 118
+0,line 0
+19,line 19
+22,line 22
+66,line 66
+166,line 166
+122,line 122
+119,line 119
+1,line 1
+23,line 23
+67,line 67
+70,line 70
+170,line 170
+167,line 167
+123,line 123
+2,line 2
+24,line 24
+68,line 68
+71,line 71
+171,line 171
+168,line 168
+124,line 124
+3,line 3
+25,line 25
+69,line 69
+72,line 72
+172,line 172
+169,line 169
+125,line 125
+4,line 4
+26,line 26
+73,line 73
+173,line 173
+126,line 126
+5,line 5
+27,line 27
+30,line 30
+74,line 74
+174,line 174
+130,line 130
+127,line 127
+6,line 6
+28,line 28
+31,line 31
+75,line 75
+175,line 175
+131,line 131
+128,line 128
+7,line 7
+29,line 29
+32,line 32
+76,line 76
+176,line 176
+132,line 132
+129,line 129
+8,line 8
+33,line 33
+77,line 77
+80,line 80
+180,line 180
+177,line 177
+133,line 133
+9,line 9
+34,line 34
+78,line 78
+81,line 81
+181,line 181
+178,line 178
+134,line 134
+35,line 35
+79,line 79
+82,line 82
+182,line 182
+179,line 179
+135,line 135
+36,line 36
+83,line 83
+183,line 183
+136,line 136
+37,line 37
+40,line 40
+84,line 84
+184,line 184
+140,line 140
+137,line 137
+38,line 38
+41,line 41
+85,line 85
+185,line 185
+141,line 141
+138,line 138
+39,line 39
+42,line 42
+86,line 86
+186,line 186
+142,line 142
+139,line 139
+43,line 43
+87,line 87
+90,line 90
+===== test of iterator
+190,line 190
+187,line 187
+143,line 143
+44,line 44
+88,line 88
+91,line 91
+191,line 191
+188,line 188
+144,line 144
+45,line 45
+89,line 89
+92,line 92
+100,line 100
+192,line 192
+189,line 189
+145,line 145
+101,line 101
+46,line 46
+93,line 93
+193,line 193
+146,line 146
+102,line 102
+47,line 47
+50,line 50
+94,line 94
+194,line 194
+150,line 150
+147,line 147
+103,line 103
+48,line 48
+51,line 51
+95,line 95
+195,line 195
+151,line 151
+148,line 148
+104,line 104
+49,line 49
+52,line 52
+96,line 96
+196,line 196
+152,line 152
+149,line 149
+105,line 105
+53,line 53
+97,line 97
+197,line 197
+153,line 153
+106,line 106
+10,line 10
+54,line 54
+98,line 98
+154,line 154
+110,line 110
+107,line 107
+11,line 11
+55,line 55
+99,line 99
+155,line 155
+111,line 111
+108,line 108
+12,line 12
+56,line 56
+156,line 156
+112,line 112
+109,line 109
+13,line 13
+57,line 57
+60,line 60
+160,line 160
+157,line 157
+113,line 113
+14,line 14
+58,line 58
+61,line 61
+161,line 161
+158,line 158
+114,line 114
+15,line 15
+59,line 59
+62,line 62
+162,line 162
+159,line 159
+115,line 115
+16,line 16
+63,line 63
+163,line 163
+116,line 116
+17,line 17
+20,line 20
+64,line 64
+164,line 164
+120,line 120
+117,line 117
+18,line 18
+21,line 21
+65,line 65
+165,line 165
+121,line 121
+118,line 118
+0,line 0
+19,line 19
+22,line 22
+66,line 66
+166,line 166
+122,line 122
+119,line 119
+1,line 1
+23,line 23
+67,line 67
+70,line 70
+170,line 170
+167,line 167
+123,line 123
+2,line 2
+24,line 24
+68,line 68
+71,line 71
+171,line 171
+168,line 168
+124,line 124
+3,line 3
+25,line 25
+69,line 69
+72,line 72
+172,line 172
+169,line 169
+125,line 125
+4,line 4
+26,line 26
+73,line 73
+173,line 173
+126,line 126
+5,line 5
+27,line 27
+30,line 30
+74,line 74
+174,line 174
+130,line 130
+127,line 127
+6,line 6
+28,line 28
+31,line 31
+75,line 75
+175,line 175
+131,line 131
+128,line 128
+7,line 7
+29,line 29
+32,line 32
+76,line 76
+176,line 176
+132,line 132
+129,line 129
+8,line 8
+33,line 33
+77,line 77
+80,line 80
+180,line 180
+177,line 177
+133,line 133
+9,line 9
+34,line 34
+78,line 78
+81,line 81
+181,line 181
+178,line 178
+134,line 134
+35,line 35
+79,line 79
+82,line 82
+182,line 182
+179,line 179
+135,line 135
+36,line 36
+83,line 83
+183,line 183
+136,line 136
+37,line 37
+40,line 40
+84,line 84
+184,line 184
+140,line 140
+137,line 137
+38,line 38
+41,line 41
+85,line 85
+185,line 185
+141,line 141
+138,line 138
+39,line 39
+42,line 42
+86,line 86
+186,line 186
+142,line 142
+139,line 139
+43,line 43
+87,line 87
+90,line 90
+===== test of destroy(free)
