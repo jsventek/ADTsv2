@@ -6,7 +6,7 @@ $ ./configure
 $ make clean
 $ make
 $ make install
-$ (cd src; sh -v test.sh)
+$ make check       # checks that the ADTs work correctly
 
 Note that the libraries are installed in /usr/local/lib and the .h files
 are installed in /usr/local/include/adts.
